@@ -3,7 +3,7 @@
 '''
 Description.
 
-The purpouse of this script is to compute the most representative skill cluster
+The purpose of this script is to compute the most representative skill cluster
 from the second interation of Nesta's skills taxonomy to describe each individual
 job advert. This step is necessary to build the crosswalk from occupations to skill
 categories.
@@ -19,10 +19,7 @@ to weigh the raw average similarities. We take two most representative clusters
 considering both the discount and the context factor. Note that 'soft skills' are
 not used to compute the most representative cluster.
 
-There is also a .ipynb version of this code that can be used instead.
-
-Finally, note that this script takes a LONG time to finish (roughly 5 minutes
-per each of the 435 chuncks, on a MacBook Pro).
+Finally, note that this script is computationally very intensive.
 
 Author: Stef Garasto
 '''
@@ -44,17 +41,10 @@ import sys
 from time import time as tt
 from tqdm import tqdm
 
-utils_dir = '/Users/stefgarasto/Local-Data/scripts/skill_demand_escoe/skill_demand/skill_demand/utils' #<--change this
-if utils_dir not in sys.path:
-    sys.path.append(utils_dir)
-    print(sys.path)
-
 from textkernel_load_utils import tk_params, data_folder, create_tk_import_dict, read_and_append_chunks
-
 from utils_general import TaskTimer, print_elapsed, nesta_colours,sic_letter_to_text, flatten_lol, printdf
 from utils_nlp import lemmatise, highest_similarity_threshold
 from utils_skills_clusters import taxonomy_2_0
-import utils_skills_matching
 from utils_skills_matching import model, generate_embeddings, generate_cluster_embeddings
 
 
@@ -88,7 +78,7 @@ def flattencolumns(df, cols = ['alt_labels']):
     return pd.concat([df1, df.drop(cols, axis=1)], axis=1)
 
 def join_skill_columns(data_df_small, SOFT= False):
-    ''' Join all the skills columns from textkernel together'''
+    ''' Join all the skills columns from textkernel together. TODO:check'''
     if SOFT:
         joined_skills = data_df_small.soft_skills.fillna(''
                     ) + ';' + data_df_small.professional_skills.fillna(''
@@ -168,7 +158,7 @@ print('done')
 
 ## Load ESCO-based skills taxonomy clusters
 ### reload the esco list, including skills that have not been clustered
-res_folder_local = '/Users/stefgarasto/Local-Data/textkernel/results/skills_matches'
+res_folder_local = '/path/to/interim/results'
 
 # Load full clusters
 esco_clusters_file = taxonomy_2_0.main_file
@@ -256,7 +246,7 @@ for name in esco_first_to_second_label.keys():
 
 ## Load dictionary that says which ESCO-based cluster each unique skill from job advert was matched to
 ### Load the results of matching TK skills to ESCO skills
-RESULTS_PATH = '/Users/stefgarasto/Local-Data/textkernel/results/skills_matches' #<-- change this
+RESULTS_PATH = '/path/to/results'
 validated_matches_file = 'tk_skills_to_skills_and_clusters_validated_final_July2020.csv'
 final_matches_file = 'tk_skills_to_clusters_1to1_final_July2020.csv'
 
@@ -287,10 +277,10 @@ GENERATE_EMB = False
 if GENERATE_EMB:
     # Generate sentence-level embeddings for each taxonomy skill
     emb_df = generate_embeddings(esco_clusters.preferred_label.to_list())
-                                #taxonomy_2_0.skill_list)
+
     taxonomy_2_0.tax_embeddings = pd.DataFrame(emb_df, index =
                                                esco_clusters.preferred_label.to_list())
-                                               #taxonomy_2_0.skill_list)
+
     taxonomy_2_0.tax_embeddings.to_csv(
         f"{DATA_PATH}/interim/embeddings_esco_preferred_labels_full.gz", encoding = 'utf-8',
         compression='gzip')
@@ -305,9 +295,6 @@ else:
 
 #%%
 # Generate sentence-level embeddings for each textkernel skill
-# NOTE: This is not future-proof! If the list of TK skills changes,
-# I have to recompute the embeddings
-# and I need to do it keeping into account the skills that have been dismissed
 tk_skills = pd.read_csv(f"{DATA_PATH}/interim/all_types_skills_counts_batch1.csv",
                                     dtype = {'skill_label': 'string', 'counts': 'float32',
                                              'skill_type': 'category'})
@@ -315,11 +302,11 @@ if GENERATE_EMB:
     emb_df = generate_embeddings(tk_skills.skill_label.to_list())
     tk_skills_embeddings = pd.DataFrame(emb_df, index= tk_skills.skill_label)
     tk_skills_embeddings.to_csv(
-                f"{DATA_PATH}/interim/embeddings_tk_skills_full.gz", #batch1.gz",
+                f"{DATA_PATH}/interim/embeddings_tk_skills_full.gz",
             encoding = 'utf-8',
             compression='gzip')
 else:
-    loaded_df = pd.read_csv(f"{DATA_PATH}/interim/embeddings_tk_skills_full.gz", #batch1.gz",
+    loaded_df = pd.read_csv(f"{DATA_PATH}/interim/embeddings_tk_skills_full.gz",
                             encoding = 'utf-8',
                             compression='gzip')
     loaded_df = loaded_df.set_index('Unnamed: 0')
@@ -329,15 +316,14 @@ else:
     except:
         loaded_df = loaded_df.loc[tk_skills.skill_label]
         assert((loaded_df.index == tk_skills.skill_label).mean()==1.0)
-    tk_skills_embeddings = loaded_df#.to_numpy()
+    tk_skills_embeddings = loaded_df
 print('Done')
 
 comparison_vectors_bert = generate_cluster_embeddings(taxonomy_2_0.skill_list,
                                 taxonomy_2_0.tax_embeddings.loc[taxonomy_2_0.skill_list],
                                 bottom_layer = taxonomy_2_0.bottom_layer)
 
-# normalise centrality weights (copy over to utils_skills_clusters)
-# and compute weighted cluster vectors
+# compute weighted cluster vectors
 comparison_vectors_weighted = generate_cluster_embeddings(taxonomy_2_0.skill_list,
                 taxonomy_2_0.tax_embeddings.loc[taxonomy_2_0.skill_list],
                 bottom_layer = taxonomy_2_0.bottom_layer,
@@ -349,12 +335,12 @@ comparison_vectors_weighted = generate_cluster_embeddings(taxonomy_2_0.skill_lis
 # Process one chunck at a time using the following stesps:
 #
 # 1. Join up all the skills into a skill list per job adverts
-# 2. Link skills to ESCO clusters
-# 3. Find most representative ESCO clusters for each job adverts based on weighted average similarities
+# 2. Link skills to clusters
+# 3. Find most representative cluster for each job adverts based on weighted average similarities
 
 # get filenames for the data
 N_to_load = tk_params.N_files
-indices_to_load = range(tk_params.N_files) #np.random.permutation(tk_params.N_files)[:N_to_load]
+indices_to_load = range(tk_params.N_files)
 dfilenames = [os.path.join(f"{DATA_PATH}/processed",tk_params.file_name_template.format(i))
               for i in indices_to_load]
 import_dict, dates_to_parse = create_tk_import_dict()
@@ -393,7 +379,6 @@ comparison_vectors_2 = comparison_vectors_2.groupby('level2').mean()
 self_similarity_level2 = pd.DataFrame(cosine_similarity(comparison_vectors_2),
                                       index= comparison_vectors_2.index,
                                       columns = comparison_vectors_2.index)
-# NOTE: I might want to adjust this using a sigmoid to make them more or less influential
 
 
 # ## Define functions that depend on similarity vectors
@@ -410,14 +395,7 @@ def compute_top_cluster(df_row):
 
 
 # Here is to actually compute the most representative cluster
-cols_to_load = ['job_id', 'posting_id',
-'profession_soc_code_value',
-'it_skills',
-'professional_skills',
-'language_skills',
-'soft_skills',
-'flags'
-]
+cols_to_load = ['textkernel/columns/to/load']
 
 out_timer = TaskTimer()
 out_timer.start_task()
@@ -426,12 +404,7 @@ filename_base = f"{DATA_PATH}/processed/" + tk_params.file_name_template
 # process one chunck of data at a time
 for i in tqdm(range(f_start,f_end)):
     file_name = filename_base.format(i)
-    #out_timer.start_task(f'--> processing file number {i}')
     data_df = pd.read_csv(file_name, compression='gzip',encoding = 'utf-8', usecols = cols_to_load)
-    #data_df = pd.read_csv(file_name, compression='gzip',
-    #                       dtype = import_dict, #parse_dates = dates_to_parse,
-    #                       infer_datetime_format = True, engine='python',
-    #                       usecols = cols_to_load)
     # remove adverts not in english and extra column
     data_df = data_df.loc[data_df.flags.map(lambda x: x%100 != 11)]
 
@@ -439,28 +412,17 @@ for i in tqdm(range(f_start,f_end)):
     data_df = data_df.assign(skill_vector = join_skill_columns(data_df, SOFT= False))
     data_df.skill_vector = data_df.skill_vector.astype('str')
 
-    # select relevant columns
-    data_df = data_df[['posting_id','profession_soc_code_value','skill_vector']]
-
-    # process soc codes
-    #for n in [3,2,1]:
-    #    data_df[f'profession_soc_code_{n}'] = data_df.profession_soc_code_value.map(lambda x:
-    #                                    resample_soc_to_n_digits(x,n=n))#.astype('category')
-
     # process skill vector column and link each skill to ESCO clusters
     data_df.skill_vector = data_df.skill_vector.map(lambda x: split_skill_vector(x))
     data_df['cluster_vector'] = data_df.skill_vector.map(lambda x: skill_to_cluster_list(x))
-    #data_df['cluster_unique'] = data_df.cluster_vector.map(np.unique)
+
     data_df['cluster_unique'] = data_df.cluster_vector.map(lambda x: list(set(x)))
     data_df['cluster_unique_2'] = data_df.cluster_unique.map(lambda x:
                                                 [esco_third_to_second[t] for t in x])
 
 
-    #print('making crosswalks')
     best_clusters = pd.DataFrame(index = data_df.posting_id,
                              columns = ['top_cluster','top_cluster_weighted'])
-    #out_timer.end_task()
-    #timer.start_task()
 
     # process each row - haven't figured out a faster way
     for _,df_row in data_df.iterrows():
@@ -474,28 +436,20 @@ for i in tqdm(range(f_start,f_end)):
         else:
             sims = full_similarities_df.loc[df_row.skill_vector,df_row.cluster_unique
                                            ].to_numpy()
-            #cluster_unique_2 = [esco_third_to_second[t] for t in df_row.cluster_unique]
+
             weights = self_similarity_level2.loc[df_row.cluster_unique_2,
                                                  df_row.cluster_unique_2].to_numpy()
 
             discounted_sims = sims.mean(axis=0)
             best_clusters.loc[name,'top_cluster'] = df_row.cluster_unique[
                     discounted_sims.argmax()]
-            # now with weights
+            # now with weights (context factor)
             discounted_sims *= weights.mean(axis=0)
-                            #*logcounts3.loc[df_row.cluster_unique].to_numpy()
+
             best_cluster = df_row.cluster_unique[discounted_sims.argmax()]
             best_clusters.loc[name,'top_cluster_weighted'] = best_cluster
-        #if i_in>100:
-        #    break
-        #i_in+=1
-    #out_timer.end_task()
 
     best_clusters = best_clusters.assign(profession_soc_code_value = data_df['profession_soc_code_value'].values)
-    #best_clusters_keep.append(best_clusters)
 
-    # save the best clusters
-    #with gzip.GzipFile(f"{DATA_PATH}/interim/soc_by_clusters/crosswalks_soc_clusters_{i}.gz",'wb') as f:
-    #    pickle.dump(crosstab_dfs, f)
-    best_clusters.to_csv(f"{DATA_PATH}/interim/soc_by_clusters_no_soft_skills/best_clusters_with_soc{i}.gz",
-        encoding='utf-8', compression = 'gzip')#, index = False)
+    best_clusters.to_csv(f"{DATA_PATH}/interim/filename{i}.gz",
+        encoding='utf-8', compression = 'gzip')
