@@ -1,0 +1,91 @@
+SOC 2010 (minor groups),Occupation,2015 (%),2016 (%),2017 (%),2018 (%),2019 (%)
+111,Chief executives and senior officials,0.52,0.35,0.31,0.33,0.33
+112,Production managers and directors,0.59,0.63,0.43,0.29,0.3
+113,Functional managers and directors,8.59,8.33,7.63,7.4,6.6
+115,Financial institution managers and directors,0.03,0.04,0.04,0.03,0.03
+116,Managers and directors in transport and logistics,0.47,0.38,0.33,0.35,0.32
+117,Senior officers in protective services,0.1,0.08,0.09,0.16,0.15
+118,Health and social services managers and directors,0.35,0.34,0.32,0.34,0.36
+119,Managers and directors in retail and wholesale,1.38,1.45,1.25,1.13,1.12
+121,Managers and proprietors in agriculture related services,0.07,0.06,0.05,0.05,0.07
+122,Managers and proprietors in hospitality and leisure services,0.87,0.86,0.79,0.68,0.75
+124,Managers and proprietors in health and care services,0.47,0.65,0.6,0.57,0.58
+125,Managers and proprietors in other services,1.21,1.66,1.75,1.81,1.9
+211,Natural and social science professionals,0.59,0.51,0.52,0.54,0.54
+212,Engineering professionals,3.48,3.4,3.33,3.12,3.47
+213,Information technology and telecommunications professionals,6.97,6.85,6.34,6.55,6.47
+214,Conservation and environment professionals,0.1,0.07,0.08,0.1,0.09
+215,Research and development managers ,0.47,0.57,0.57,0.57,0.53
+221,Health professionals,1.15,1.51,1.62,1.84,2.03
+222,Therapy professionals,0.51,0.52,0.5,0.53,0.6
+223,Nursing and midwifery professionals,3.88,3.87,3.61,3.24,3.19
+231,Teaching and educational professionals,4.46,4.91,4.67,4.49,4.91
+241,Legal professionals,1.22,1.56,1.56,1.66,1.81
+242,"Business, research and administrative professionals",4.56,4.56,4.7,4.78,4.45
+243,"Architects, town planners and surveyors",1.33,0.74,0.67,0.57,0.52
+244,Welfare professionals,0.66,0.62,0.74,0.76,0.75
+245,Librarians and related professionals,0.06,0.03,0.02,0.03,0.03
+246,Quality and regulatory professionals,1.07,1.17,1.05,0.94,0.88
+247,Media professionals,0.44,0.33,0.33,0.38,0.38
+311,"Science, engineering and production technicians",2.41,2.67,2.64,2.6,2.44
+312,Draughtspersons and related architectural technicians,0.23,0.18,0.19,0.17,0.31
+313,Information technology technicians,1.06,1.05,1.04,1.05,1.1
+321,Health associate professionals,0.25,0.23,0.24,0.25,0.23
+323,Welfare and housing associate professionals,0.05,0.05,0.06,0.09,0.08
+331,Protective service occupations,0.21,0.17,0.18,0.24,0.22
+341,"Artistic, literary and media occupations",0.64,0.51,0.46,0.48,0.44
+342,Design occupations,0.62,0.7,0.65,0.61,0.52
+344,Sports and fitness occupations,0.37,0.39,0.32,0.36,0.43
+351,Transport associate professionals,0.09,0.03,0.03,0.04,0.04
+352,Legal associate professionals,0.44,0.44,0.49,0.66,0.56
+353,"Business, finance and related associate professionals",3.49,3.49,3.85,3.85,3.55
+354,"Sales, marketing and related associate professionals",7.29,7.58,7.35,6.69,6.42
+355,Conservation and environmental associate professionals,0.0,0.0,0.0,0.0,0.0
+356,Public services and other associate professionals,2.45,2.3,2.02,1.96,1.93
+411,Administrative occupations: government and related organisations,0.06,0.05,0.05,0.05,0.06
+412,Administrative occupations: finance,1.89,1.57,1.71,1.98,1.83
+413,Administrative occupations: records,2.27,2.09,2.19,2.34,2.08
+415,Other administrative occupations,2.1,1.84,1.75,1.72,1.67
+416,Administrative occupations: office managers and supervisors,0.45,0.95,0.95,0.98,0.96
+421,Secretarial and related occupations,1.87,1.9,1.82,1.89,1.75
+511,Agricultural and related trades,0.13,0.15,0.2,0.22,0.25
+521,"Metal forming, welding and related trades",0.24,0.21,0.25,0.25,0.25
+522,"Metal machining, fitting and instrument making trades",0.19,0.23,0.24,0.23,0.38
+523,Vehicle trades,0.67,0.76,0.8,0.93,0.98
+524,Electrical and electronic trades,0.65,0.71,0.82,0.74,0.63
+525,"Skilled metal, electrical and electronic trades supervisors",0.29,0.28,0.28,0.3,0.29
+531,Construction and building trades,0.84,0.74,0.86,0.76,0.75
+532,Building finishing trades,0.23,0.15,0.18,0.17,0.21
+533,Construction and building trades supervisors,0.22,0.19,0.19,0.16,0.19
+541,Textiles and garments trades,0.03,0.02,0.02,0.02,0.02
+542,Printing trades,0.06,0.03,0.03,0.03,0.03
+543,Food preparation and hospitality trades,2.56,2.63,2.52,2.19,2.66
+544,Other skilled trades,0.03,0.02,0.03,0.02,0.03
+612,Childcare and related personal services,1.0,1.59,1.74,1.89,2.04
+613,Animal care and control services,0.15,0.19,0.13,0.1,0.08
+614,Caring personal services,2.04,2.61,2.62,2.7,3.26
+621,Leisure and travel services,0.28,0.34,0.38,0.43,0.58
+622,Hairdressers and related services,0.22,0.31,0.37,0.32,0.24
+623,Housekeeping and related services,0.38,0.42,0.75,0.9,0.78
+624,Cleaning and housekeeping managers and supervisors,0.14,0.14,0.19,0.21,0.23
+711,Sales assistants and retail cashiers,2.75,2.76,2.68,2.51,2.52
+712,Sales related occupations,0.26,0.27,0.26,0.22,0.24
+713,Sales supervisors,0.05,0.03,0.04,0.02,0.03
+721,Customer service occupations,4.43,3.13,2.89,3.13,2.89
+722,Customer service managers and supervisors,1.05,1.03,1.02,1.01,0.95
+811,Process operatives,0.07,0.09,0.09,0.09,0.1
+812,Plant and machine operatives,0.49,0.43,0.57,0.58,0.61
+813,Assemblers and routine operatives,0.14,0.09,0.11,0.11,0.12
+814,Construction operatives,0.12,0.18,0.2,0.18,0.19
+821,Road transport drivers,1.7,1.5,1.57,1.96,1.89
+822,Mobile machine drivers and operatives,0.51,0.52,0.62,0.67,0.63
+823,Other drivers and transport operatives,0.04,0.02,0.02,0.02,0.02
+911,Elementary agricultural occupations,0.02,0.02,0.02,0.02,0.02
+912,Elementary construction occupations,0.04,0.14,0.19,0.17,0.16
+913,Elementary process plant occupations,0.62,0.66,0.86,0.86,0.86
+921,Elementary administration occupations,0.12,0.12,0.14,0.22,0.22
+923,Elementary cleaning occupations,0.98,0.69,1.23,1.33,1.53
+924,Elementary security occupations,0.54,0.49,0.65,0.65,0.69
+925,Elementary sales occupations,0.0,0.0,0.01,0.01,0.01
+926,Elementary storage occupations,0.08,0.11,0.14,0.15,0.15
+927,Other elementary services occupations,1.82,1.74,2.21,2.24,2.51
