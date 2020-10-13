@@ -4,10 +4,10 @@ Last updated: 14th October 2020.
 Licence.
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 
-This Github repo is to hold supplementary material for Nesta's report on "Developing experimental estimates of skill demand", produced as part of a research project funded by the Economics Statistics Centre of Excellence (ESCoE).
+This Github repo contains supplementary material for Nesta's report on "Developing experimental estimates of skill demand", produced as part of a research project funded by the <a href="https://www.escoe.ac.uk/">Economics Statistics Centre of Excellence</a> (ESCoE).
 
 # Authors
-Stef Garasto, Jyldyz Djumalieva, Karlis Kanders, Rachel Wilcock and Cath Sleeman.
+Stef Garasto (Nesta), Jyldyz Djumalieva (Nesta), Karlis Kanders (Nesta), Rachel Wilcock (Nesta) and Cath Sleeman (Nesta).
 
 # Content
 This repository contains three folders.
